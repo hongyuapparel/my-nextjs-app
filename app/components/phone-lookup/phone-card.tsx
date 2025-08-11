@@ -1,10 +1,10 @@
 'use client'
 
 import { Copy, Phone, Info } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card'
-import { Button } from '@/app/components/ui/button'
-import { PhoneData } from '@/lib/data/phone-codes'
-import { cn } from '@/lib/utils'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Button } from '../ui/button'
+import { PhoneData } from '../../../lib/data/phone-codes'
+import { cn } from '../../../lib/utils'
 
 interface PhoneCardProps {
   phone: PhoneData

@@ -1,7 +1,7 @@
 'use client'
 
 import { User, Bot, Copy } from 'lucide-react'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '../ui/button'
 import { toast } from 'sonner'
 
 interface ChatMessage {

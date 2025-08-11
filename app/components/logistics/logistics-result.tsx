@@ -1,7 +1,7 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card'
-import { Button } from '@/app/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import { Button } from '../ui/button'
 import { CheckCircle, Clock, MapPin, Truck, Plane, Ship, Package, ExternalLink } from 'lucide-react'
 
 interface LogisticsResultProps {

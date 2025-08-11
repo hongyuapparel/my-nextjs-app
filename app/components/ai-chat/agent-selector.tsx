@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { Zap, Settings, RefreshCw } from 'lucide-react'
-import { Button } from '@/app/components/ui/button'
-import { Card, CardContent } from '@/app/components/ui/card'
+import { Button } from '../ui/button'
+import { Card, CardContent } from '../ui/card'
 
 interface Agent {
   id: string

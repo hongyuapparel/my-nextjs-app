@@ -1,8 +1,8 @@
 'use client'
 
 import { Moon, Sun } from 'lucide-react'
-import { Button } from '@/app/components/ui/button'
-import { useAppStore } from '@/lib/store'
+import { Button } from '../ui/button'
+import { useAppStore } from '../../../lib/store'
 import Link from 'next/link'
 
 export function Header() {

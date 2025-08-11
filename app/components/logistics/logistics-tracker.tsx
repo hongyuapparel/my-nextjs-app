@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { useAppStore } from '@/lib/store'
+import { useAppStore } from '../../../lib/store'
 import { Search, Package, Clock, MapPin, Truck, CheckCircle, XCircle, History, Star, Trash2, ExternalLink, Copy, Plus, Tag, Calendar, Check } from 'lucide-react'
 import { toast } from 'sonner'
 
