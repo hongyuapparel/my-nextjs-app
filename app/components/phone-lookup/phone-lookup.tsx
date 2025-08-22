@@ -747,7 +747,11 @@ export function PhoneLookup() {
   }
 
   return (
+<<<<<<< HEAD
     <div className="space-y-4 md:space-y-6">
+=======
+    <div className="space-y-6">
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
       {/* 搜索区域 */}
       <Card className="p-6">
         <div className="space-y-4">

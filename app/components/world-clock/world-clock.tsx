@@ -96,7 +96,11 @@ export function WorldClock() {
       { name: 'cityEn', weight: 0.25 },
       { name: 'abbreviations', weight: 0.3 }
     ],
+<<<<<<< HEAD
     threshold: 0.4, // 降低阈值，让搜索更宽松
+=======
+    threshold: 0.6,
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
     includeScore: true,
     findAllMatches: true,
     ignoreLocation: true
@@ -138,22 +142,36 @@ export function WorldClock() {
     
     // 如果是清空或者点击已选择的搜索框，重置源时区
     if (!query.trim() || query.includes('(UTC')) {
+<<<<<<< HEAD
       setSourceTimezone(null)
+=======
+    if (!query.trim()) {
+        setSourceTimezone(null)
+      }
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
       setSearchResults([])
       setShowSearchResults(false)
       return
     }
 
+<<<<<<< HEAD
     // 立即显示搜索结果
     setShowSearchResults(true)
     const results = fuse.search(query).map(result => result.item)
     console.log('🔍 搜索查询:', query, '结果数量:', results.length) // 调试信息
+=======
+    setShowSearchResults(true)
+    const results = fuse.search(query).map(result => result.item)
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
     setSearchResults(results.slice(0, 6))
   }
 
   // 选择时区
   const selectTimezone = (timezone: TimeZoneInfo) => {
+<<<<<<< HEAD
     console.log('🎯 选择时区:', timezone) // 调试信息
+=======
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
       setSourceTimezone(timezone)
     setSearchQuery(`${timezone.flag} ${timezone.city} (UTC${timezone.utcOffset >= 0 ? '+' : ''}${timezone.utcOffset})`)
     setSearchResults([])
@@ -207,7 +225,11 @@ export function WorldClock() {
     calculateTimeConversion(sourceTimezone, targetTimezone, selectedHour, selectedMinute) : null
 
   return (
+<<<<<<< HEAD
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+=======
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
       {/* 左侧：源时区 */}
       <Card className="p-6 bg-white border-2 border-gray-200 shadow-lg">
         <div className="space-y-4">
@@ -219,6 +241,7 @@ export function WorldClock() {
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
+<<<<<<< HEAD
               placeholder="搜索国家、城市或缩写..."
               className="w-full h-10 text-base border-2 border-gray-300 focus:border-blue-500"
               onFocus={() => {
@@ -257,6 +280,39 @@ export function WorldClock() {
                   <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
                     UTC{timezone.utcOffset >= 0 ? '+' : ''}{timezone.utcOffset}
                   </span>
+=======
+                placeholder="搜索国家、城市或缩写..."
+                className="w-full h-10 text-base border-2 border-gray-300 focus:border-blue-500"
+                onFocus={() => {
+                  if (sourceTimezone && searchQuery.includes('(UTC')) {
+                    setSearchQuery('')
+                    setSourceTimezone(null)
+                  }
+                  setShowSearchResults(true)
+                }}
+                onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
+            />
+
+          {/* 搜索结果 */}
+              {showSearchResults && searchResults.length > 0 && (
+                <div className="absolute z-20 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-xl max-h-48 overflow-y-auto">
+                {searchResults.map((timezone) => (
+                  <div
+                    key={timezone.id}
+                      className="flex items-center justify-between p-3 hover:bg-blue-50 cursor-pointer transition-colors"
+                      onClick={() => selectTimezone(timezone)}
+                  >
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xl">{timezone.flag}</span>
+                      <div>
+                          <p className="font-semibold text-gray-900 text-sm">{timezone.city}</p>
+                          <p className="text-xs text-gray-600">{timezone.country}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                        UTC{timezone.utcOffset >= 0 ? '+' : ''}{timezone.utcOffset}
+                      </span>
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
                   </div>
                 ))}
               </div>

@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+<<<<<<< HEAD
     // 仅使用前端提供的密钥，不再读取服务端环境变量
     const hasOpenai = !!(config.openaiApiKey && config.openaiApiKey.trim())
     const hasCherry = !!(config.apiKey && config.apiKey.trim() && config.agentId)
@@ -73,6 +74,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { response: '请在界面“配置”中正确选择智能体并填写所需密钥。', type: 'invalid-config' },
         { status: 200 }
+=======
+    // 从环境变量获取API密钥作为备用
+    const envApiKey = process.env.AIHUBMIX_API_KEY
+    const envOpenaiKey = process.env.OPENAI_API_KEY
+    
+    // 根据智能体类型选择调用方式
+    if (config.agentType === 'chatgpt' && config.gptId && (config.openaiApiKey || envOpenaiKey)) {
+      const finalConfig = { ...config, openaiApiKey: config.openaiApiKey || envOpenaiKey || '' }
+      return await callChatGPTGPT(message, finalConfig)
+    } else if (config.agentType === 'cherry-studio' && config.agentId && (config.apiKey || envApiKey)) {
+      const finalConfig = { ...config, apiKey: config.apiKey || envApiKey || '' }
+      return await callCherryStudioAgent(message, finalConfig)
+    } else {
+      return NextResponse.json(
+        { error: '请配置API密钥或确保智能体设置正确' },
+        { status: 400 }
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
       )
     }
 
@@ -310,6 +328,7 @@ async function callChatGPTWithInstructions(message: string, config: AIConfig) {
 async function callCherryStudioAgent(message: string, config: AIConfig) {
   try {
     console.log('🔍 调用Cherry Studio智能体:', config.agentId)
+<<<<<<< HEAD
 
     // 统一模型映射 + 降级序列
     const requestedModel = (config.model || '').toLowerCase()
@@ -331,6 +350,9 @@ async function callCherryStudioAgent(message: string, config: AIConfig) {
       return NextResponse.json({ response: offline, type: 'offline', model: 'offline' }, { status: 200 })
     }
 
+=======
+    
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
     // 使用用户在Cherry Studio中设置的完整提示词
     const businessPrompt = `## 您的角色：鸿宇服饰的产品和业务顾问
 
@@ -358,6 +380,7 @@ async function callCherryStudioAgent(message: string, config: AIConfig) {
 ## Initialization
 作为鸿宇服饰的产品和业务顾问，您将按照以上部分规范开始处理和回复客户的服装需求。确立流程和清晰的工作要求，并以友好且专业的语气进行交流，促进公司业务和客户满意度的提升。`
 
+<<<<<<< HEAD
     // 构建公共体
     const buildBody = (model: string) => {
       const body: any = {
@@ -424,6 +447,68 @@ async function callCherryStudioAgent(message: string, config: AIConfig) {
       { error: '所有模型均不可用，请稍后再试或检查账户权限', details: lastErrorText },
       { status: 502 }
     )
+=======
+    // 构建请求体，确保调用您的专属智能体
+    const requestBody: any = {
+      model: config.model || 'gpt-4',
+      messages: [
+        {
+          role: 'system',
+          content: businessPrompt
+        },
+        {
+          role: 'user',
+          content: message
+        }
+      ],
+      temperature: 0.3, // 降低随机性，保持专业性
+      max_tokens: 2000, // 增加输出长度
+      stream: false
+    }
+
+    // 添加Cherry Studio智能体的特定参数
+    if (config.agentId) {
+      // 使用正确的参数名调用您的智能体
+      requestBody.agent_id = config.agentId
+      // 也可能需要这些参数
+      requestBody.assistant_id = config.agentId
+      requestBody.knowledge_base = config.agentId
+    }
+
+    console.log('📤 发送请求到:', `${config.baseUrl}/chat/completions`)
+    console.log('📝 请求体:', JSON.stringify(requestBody, null, 2))
+
+    const response = await fetch(`${config.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.apiKey}`,
+        'X-Agent-ID': config.agentId || '', // 额外的header参数
+      },
+      body: JSON.stringify(requestBody)
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('Cherry Studio API错误:', response.status, errorText)
+      
+      return NextResponse.json(
+        { error: `Cherry Studio API调用失败 (${response.status}): ${errorText}` },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+    const aiMessage = data.choices?.[0]?.message?.content || '抱歉，我暂时无法回答这个问题。'
+
+    return NextResponse.json({
+      response: aiMessage,
+      model: config.model,
+      type: 'cherry-studio',
+      agentId: config.agentId,
+      timestamp: new Date().toISOString()
+    })
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
 
   } catch (error: any) {
     console.error('Cherry Studio调用错误:', error)

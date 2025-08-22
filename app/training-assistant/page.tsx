@@ -49,7 +49,11 @@ export default function TrainingAssistant() {
   const [aiConfig, setAiConfig] = useState<AIConfig>({
     apiKey: '', // 留空将使用服务器端配置的API密钥
     baseUrl: 'https://api.aihubmix.com/v1',
+<<<<<<< HEAD
     model: 'gpt-4', // 使用标准GPT-4模型，避免权限问题
+=======
+    model: 'gpt-4-vision-preview', // 使用视觉增强模型
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
     agentId: 'agent-1754295056697', // 您的鸿宇服装助手ID
     agentName: '鸿宇服装助手',
     agentType: 'cherry-studio',
@@ -628,9 +632,15 @@ export default function TrainingAssistant() {
                     onChange={(e) => setAiConfig({ ...aiConfig, model: e.target.value })}
                     className="w-full p-2 border border-gray-300 rounded-md"
                   >
+<<<<<<< HEAD
                     <option value="gpt-4">GPT-4 标准版 (推荐)</option>
                     <option value="claude-3-vision">Claude-3 Vision</option>
                     <option value="gpt-4-vision-preview">GPT-4 Vision (需要权限)</option>
+=======
+                    <option value="gpt-4-vision-preview">GPT-4 Vision (推荐)</option>
+                    <option value="claude-3-vision">Claude-3 Vision</option>
+                    <option value="gpt-4">GPT-4 标准版</option>
+>>>>>>> dd81c17ca42ee6716d780951d9d683820c388280
                   </select>
                   <p className="text-xs text-gray-500 mt-1">专业面料识别推荐使用 GPT-4 Vision</p>
                 </div>
