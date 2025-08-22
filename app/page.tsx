@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Card } from './components/ui/card'
-import { LogisticsTracker } from './components/logistics/logistics-tracker'
+import LogisticsTracker from './components/logistics/logistics-tracker'
 import { WorldClock } from './components/world-clock/world-clock'
 import { PhoneLookup } from './components/phone-lookup/phone-lookup'
 import TrainingAssistant from './training-assistant/page'

@@ -213,8 +213,8 @@ export class LogisticsDataService {
       
     } catch (error: any) {
       console.error('❌ 订阅失败:', error)
-      return null
-    }
+    return null
+  }
   }
 
   // 测试连接

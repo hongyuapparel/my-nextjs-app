@@ -7,7 +7,7 @@ import { Input } from '../ui/input'
 import { Badge } from '../ui/badge'
 import { Truck, Package, Star, StarOff, Trash2, Plus, Cloud, CloudOff, Wifi, WifiOff } from 'lucide-react'
 import { toast } from 'sonner'
-import { getLogisticsService, LogisticsRecord } from '../../lib/supabase'
+import { getLogisticsService, LogisticsRecord } from '../../../lib/supabase'
 
 // 快递公司配置
 const CARRIERS = {
@@ -194,8 +194,8 @@ export default function LogisticsTracker() {
           } else {
             // 云端加载失败，加载本地记录
             loadLocalRecords()
-          }
-        } else {
+        }
+      } else {
           // 云端服务不可用，使用本地模式
           loadLocalRecords()
         }
@@ -225,7 +225,7 @@ export default function LogisticsTracker() {
       if (realtimeSubscription) {
         try {
           realtimeSubscription.unsubscribe()
-        } catch (error) {
+    } catch (error) {
           console.warn('清理订阅时出错:', error)
         }
       }
@@ -384,11 +384,11 @@ export default function LogisticsTracker() {
         deleteRecordLocally(id)
         setSyncStatus(prev => ({ ...prev, pendingChanges: prev.pendingChanges + 1 }))
         toast.warning('已在本地删除，将在云端恢复时同步')
-      } else {
+          } else {
         toast.success('记录已删除')
         // 实时订阅会自动更新列表
-      }
-    } else {
+          }
+        } else {
       // 云端不可用，本地删除
       deleteRecordLocally(id)
       setSyncStatus(prev => ({ ...prev, pendingChanges: prev.pendingChanges + 1 }))
@@ -442,7 +442,7 @@ export default function LogisticsTracker() {
       {/* 同步状态指示器 */}
       <Card className="border-2">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
               <Package className="h-5 w-5" />
               物流信息管理
@@ -465,14 +465,14 @@ export default function LogisticsTracker() {
               )}
             </CardTitle>
             
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
               {syncStatus.pendingChanges > 0 && (
                 <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
                   {syncStatus.pendingChanges} 个待同步
                 </Badge>
               )}
               
-              <Button
+            <Button
                 variant="outline"
                 size="sm"
                 onClick={manualSync}
@@ -481,7 +481,7 @@ export default function LogisticsTracker() {
               >
                 <Wifi className="h-3 w-3" />
                 同步
-              </Button>
+            </Button>
             </div>
           </div>
           
@@ -495,9 +495,9 @@ export default function LogisticsTracker() {
         <CardContent className="space-y-4">
           {/* 添加记录表单 */}
           <div className="flex gap-2">
-            <Input
+              <Input
               placeholder="输入快递单号 (如DHL、FedEx、UPS等)"
-              value={trackingNumber}
+                value={trackingNumber}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTrackingNumber(e.target.value)}
               onKeyDown={(e: React.KeyboardEvent) => {
                 if (e.key === 'Enter') {
@@ -507,17 +507,17 @@ export default function LogisticsTracker() {
               className="flex-1"
             />
             
-            <select
-              value={selectedCarrier}
+              <select
+                value={selectedCarrier}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCarrier(e.target.value)}
               className="px-3 py-2 border border-input bg-background rounded-md text-sm"
             >
               {Object.entries(CARRIERS).map(([value, label]) => (
                 <option key={value} value={value}>
                   {label}
-                </option>
-              ))}
-            </select>
+                  </option>
+                ))}
+              </select>
             
             <Button
               onClick={addRecord}
@@ -528,7 +528,7 @@ export default function LogisticsTracker() {
               添加
             </Button>
           </div>
-
+          
           {/* 搜索框 */}
           <Input
             placeholder="搜索单号、快递公司、收件人、负责人..."
@@ -563,8 +563,8 @@ export default function LogisticsTracker() {
             <p className="text-xs text-muted-foreground">运输中</p>
           </CardContent>
         </Card>
-      </div>
-
+              </div>
+          
       {/* 记录列表 */}
       <Card>
         <CardHeader>
@@ -581,7 +581,7 @@ export default function LogisticsTracker() {
               <p className="text-muted-foreground">
                 {searchTerm ? '没有找到匹配的记录' : '暂无记录'}
               </p>
-            </div>
+              </div>
           ) : (
             <div className="space-y-3">
               {filteredRecords.map((record) => (
@@ -590,15 +590,15 @@ export default function LogisticsTracker() {
                   className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0">
+                  <div className="flex-shrink-0">
                       <Truck className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    
+            </div>
+            
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-sm">
                           {record.tracking_number}
-                        </span>
+                  </span>
                         <Badge variant="outline" className="text-xs">
                           {record.carrier_name || record.carrier}
                         </Badge>
@@ -609,8 +609,8 @@ export default function LogisticsTracker() {
                           >
                             {record.status}
                           </Badge>
-                        )}
-                      </div>
+                          )}
+          </div>
                       
                       <div className="text-xs text-muted-foreground">
                         {record.destination && (
@@ -620,9 +620,9 @@ export default function LogisticsTracker() {
                           <span>收件人: {record.recipient} • </span>
                         )}
                         最后更新: {new Date(record.last_update).toLocaleString()}
-                      </div>
-                    </div>
                   </div>
+                            </div>
+                        </div>
                   
                   <div className="flex items-center gap-2">
                     <Button
@@ -638,7 +638,7 @@ export default function LogisticsTracker() {
                       )}
                     </Button>
                     
-                    <Button
+                      <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => deleteRecord(record.id)}
@@ -652,7 +652,7 @@ export default function LogisticsTracker() {
             </div>
           )}
         </CardContent>
-      </Card>
+        </Card>
     </div>
   )
 }

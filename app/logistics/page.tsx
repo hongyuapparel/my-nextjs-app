@@ -1,6 +1,6 @@
 'use client'
 
-import { LogisticsTracker } from '../components/logistics/logistics-tracker'
+import LogisticsTracker from '../components/logistics/logistics-tracker'
 
 export default function Logistics() {
   return (
